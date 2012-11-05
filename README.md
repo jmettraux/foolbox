@@ -39,6 +39,11 @@ Creates a DOM element
 
   Foolbox.c(a, "#id0").c("#id1a").c("#id1b")
     // => <div id="id0"><div id="id1"><div id="id2"></div></div></div>
+
+// elements get a s() method
+
+  Foolbox.c(a, "#id0").c("#id1a").s("#id1b")
+    // => <div id="id0"><div id="id1a"></div><div id="id1b"></div></div>
 ```
 
 ## license

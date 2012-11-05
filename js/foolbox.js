@@ -117,6 +117,7 @@ var Foolbox = (function() {
     if (container) container.appendChild(e);
 
     e.c = childCreate;
+    e.s = siblingCreate;
 
     return e;
   }
@@ -153,7 +154,17 @@ var Foolbox = (function() {
 
   function childCreate() {
 
-    var args = [ this ]; for (var k in arguments) { args.push(arguments[k]); }
+    var args = [ this ];
+    for (var k in arguments) { args.push(arguments[k]); }
+
+    return self.create.apply(null, args);
+  }
+
+  function siblingCreate() {
+
+    var args = [ this.parentNode ];
+    for (var k in arguments) { args.push(arguments[k]); }
+
     return self.create.apply(null, args);
   }
 
