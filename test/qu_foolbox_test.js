@@ -96,3 +96,8 @@ test('Foolbox.c(elt, "#id0").c("#id1").c("#id2")', function() {
     '<div id="id0"><div id="id1"><div id="id2"></div></div></div>')
 });
 
+//
+// ._s() and .s_() (sibling after and before)
+
+// TODO maybe
+
