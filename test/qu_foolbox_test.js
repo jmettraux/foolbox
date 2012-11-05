@@ -51,20 +51,20 @@ test('Foolbox.create(elt, "p#id.class@x=y", innerHTML)', function() {
     '<p id="id" class="class" data-x="y">hello</p>')
 });
 
-//
-// nested creates
-
-test('Foolbox.create(elt, "#id0", [ "#id1" ])', function() {
+test('Foolbox.create("#id")', function() {
 
   t(
-    Foolbox.create(a, "#id0", [ "#id1" ]),
-    '<div id="id0"><div id="id1"></div></div>')
+    Foolbox.create("#id"),
+    '<div id="id"></div>')
 });
 
-test('Foolbox.create(elt, "#id0", [ [ "#id1a" ], [ "#id1b" ]  ])', function() {
+//
+// nested elements
+
+test('Foolbox.c(elt, "#id0", Foolbox.c("#id1a"), Foolbox.c("#id1b"))', function() {
 
   t(
-    Foolbox.create(a, "#id0", [ [ "#id1a" ], [ "#id1b" ] ]),
+    Foolbox.c(a, "#id0", Foolbox.c("#id1a"), Foolbox.c("#id1b")),
     '<div id="id0"><div id="id1a"></div><div id="id1b"></div></div>')
 });
 

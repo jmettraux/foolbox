@@ -29,10 +29,14 @@ var Foolbox = (function() {
   //
   // create()
 
-  function isString(o) { return ((typeof o) == 'string'); }
-  function isObject(o) { return o && ((typeof o) == 'object'); }
-  function isElement(o) { return o && isString(o.nodeName); }
-  function isArray(o) { return o && ( ! isString(o)) && (o.length === +o.length); };
+  function isString(o) {
+    return ((typeof o) == 'string'); }
+  function isElement(o) {
+    return o && isString(o.nodeName); }
+  function isHash(o) {
+    return o && ((typeof o) == 'object') && ( ! isElement(o)); }
+  function isArray(o) {
+    return o && ( ! isString(o)) && (o.length === +o.length); };
 
   this.create = function() {
 
@@ -76,7 +80,7 @@ var Foolbox = (function() {
     // argument: attributes
 
     arg = arguments[offset];
-    if (isObject(arg) && ( ! isArray(arg))) {
+    if (isHash(arg)) {
       offset++;
       for (var k in arg) { attributes[k] = arg[k]; }
     }
@@ -93,18 +97,16 @@ var Foolbox = (function() {
     // creation
 
     var e = document.createElement(tagName);
-      //
-      // needed in case of nested arrays
+      // needed for the remaining arguments
 
-    // argument: nested array
+    //
+    // child elements
 
-    arg = arguments[offset];
-    if (isArray(arg)) {
-      //offset++;
-      var arrays = isArray(arg[0]) ? arg : [ arg ];
-      for (var i = 0; i < arrays.length; i++) {
-        self.create.apply(null, [ e ].concat(arrays[i]));
-      }
+    while(offset < arguments.length) {
+      arg = arguments[offset];
+      offset++;
+      console.log(arg);
+      if (isElement(arg)) e.appendChild(arg);
     }
 
     //
@@ -147,6 +149,8 @@ var Foolbox = (function() {
 
     return r;
   }
+
+  this.c = this.create;
 
   //
   // importScript()
