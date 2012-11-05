@@ -72,6 +72,13 @@ test('Foolbox.create($(a), "#id")', function() {
     '<div id="id"></div>');
 });
 
+test('Foolbox.create(a, "td", "text")', function() {
+
+  t(
+    Foolbox.create(a, "td", "text"),
+    '<td>text</td>');
+});
+
 //
 // nested elements
 

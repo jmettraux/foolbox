@@ -41,7 +41,7 @@ var Foolbox = (function() {
   this.create = function() {
 
     var container = null;
-    var tagName = 'div';
+    var tagName = null;
     var attributes = {};
     var innerHTML = null;
 
@@ -68,9 +68,9 @@ var Foolbox = (function() {
     // argument: tagName#id.class
 
     arg = arguments[offset];
-    if (isString(arg)) {
+    var r = null;
+    if (isString(arg) && (r = split(tagName, arg))) {
       offset++;
-      var r = split(arg);
       if (r.tagName) tagName = r.tagName;
       if (r.id) attributes.id = r.id;
       if (r.class) attributes.class = r.class;
@@ -96,7 +96,7 @@ var Foolbox = (function() {
     //
     // creation
 
-    var e = document.createElement(tagName);
+    var e = document.createElement(tagName || 'div');
       // needed for the remaining arguments
 
     //
@@ -122,7 +122,10 @@ var Foolbox = (function() {
     return e;
   }
 
-  function split(s) {
+  function split(tagName, s) {
+
+    if (s.match(/\s/)) return false;
+    if (tagName && ( ! s.match(/[\.#@]/))) return false;
 
     var r = {};
 
