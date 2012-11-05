@@ -116,6 +116,8 @@ var Foolbox = (function() {
 
     if (container) container.appendChild(e);
 
+    e.c = childCreate;
+
     return e;
   }
 
@@ -147,6 +149,12 @@ var Foolbox = (function() {
     if (r.class) r.class = r.class.join(' ');
 
     return r;
+  }
+
+  function childCreate() {
+
+    var args = [ this ]; for (var k in arguments) { args.push(arguments[k]); }
+    return self.create.apply(null, args);
   }
 
   this.c = this.create;

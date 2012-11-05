@@ -82,3 +82,17 @@ test('Foolbox.c(elt, "#id0", Foolbox.c("#id1a"), Foolbox.c("#id1b"))', function(
     '<div id="id0"><div id="id1a"></div><div id="id1b"></div></div>')
 });
 
+//
+// c().c()
+
+test('Foolbox.c(elt, "#id0").c("#id1").c("#id2")', function() {
+
+  $(a).html('');
+
+  Foolbox.c(a, "#id0").c("#id1").c("#id2");
+
+  equal(
+    a.innerHTML,
+    '<div id="id0"><div id="id1"><div id="id2"></div></div></div>')
+});
+
