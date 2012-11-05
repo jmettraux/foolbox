@@ -34,28 +34,35 @@ test('Foolbox.create(elt, tagName, ".class-a.class-b", innerHTML)', function() {
 
   t(
     Foolbox.create(a, "div", ".class-a.class-b", "hello"),
-    '<div class="class-a class-b">hello</div>')
+    '<div class="class-a class-b">hello</div>');
 });
 
 test('Foolbox.create(elt, "p.class-a.class-b", innerHTML)', function() {
 
   t(
     Foolbox.create(a, "p.class-a.class-b", "hello"),
-    '<p class="class-a class-b">hello</p>')
+    '<p class="class-a class-b">hello</p>');
 });
 
-test('Foolbox.create(elt, "p#id.class@x=y", innerHTML)', function() {
+test('Foolbox.create(elt, "p#id.class@data-x=y", innerHTML)', function() {
 
   t(
     Foolbox.create(a, "p#id.class@data-x=y", "hello"),
-    '<p id="id" class="class" data-x="y">hello</p>')
+    '<p id="id" class="class" data-x="y">hello</p>');
+});
+
+test('Foolbox.create("@x=y@z=4")', function() {
+
+  t(
+    Foolbox.create(a, "@x=y@z=4"),
+    '<div x="y" z="4"></div>');
 });
 
 test('Foolbox.create("#id")', function() {
 
   t(
     Foolbox.create("#id"),
-    '<div id="id"></div>')
+    '<div id="id"></div>');
 });
 
 //
