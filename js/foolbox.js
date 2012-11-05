@@ -29,50 +29,107 @@ var Foolbox = (function() {
   //
   // create()
 
-  this.create = function(container, tagName, attributes, innerHTML) {
+  function isString(o) { return ((typeof o) == 'string'); }
+  function isObject(o) { return o && ((typeof o) == 'object'); }
+  function isElement(o) { return o && isString(o.nodeName); }
+  function isArray(o) { return o && (o.length === +o.length); };
+
+  this.create = function() {
+
+    var container = null;
+    var tagName = 'div';
+    var attributes = {};
+    var innerHTML = null;
+
+    var offset = 0;
+
+    // argument: container
+
+    var arg = arguments[0];
+    offset++;
+    if (arg) {
+      if (arg.jquery) container = arg[0];
+      else if (isElement(arg)) container = arg;
+      else offset = 0;
+    }
+
+    // argument: tagName
+
+    arg = arguments[offset];
+    if (isString(arg) && arg.match(/^[a-zA-Z][a-zA-Z0-9]*$/)) {
+      offset++;
+      tagName = arg;
+    }
+
+    // argument: tagName#id.class
+
+    arg = arguments[offset];
+    if (isString(arg)) {
+      offset++;
+      var r = split(arg);
+      if (r.tagName) tagName = r.tagName;
+      if (r.id) attributes.id = r.id;
+      if (r.class) attributes.class = r.class;
+      if (r.atts) for (var k in r.atts) { attributes[k] = r.atts[k] };
+    }
+
+    // argument: attributes
+
+    arg = arguments[offset];
+    if (isObject(arg) && ( ! isArray(arg))) {
+      offset++;
+      for (var k in arg) { attributes[k] = arg[k]; }
+    }
+
+    // argument: innerHTML
+
+    arg = arguments[offset];
+    if (isString(arg)) {
+      offset++;
+      innerHTML = arg;
+    }
+
+    //
+    // create
 
     var e = document.createElement(tagName);
 
-    if (attributes && ((typeof attributes) == 'string')) {
-      var i = identify(attributes);
-      if (i.className) e.className = i.className;
-      else if (i.id) e.id = i.id;
-    }
-    else if (attributes) {
-      for (var k in attributes) e.setAttribute(k, attributes[k]);
-    }
-
+    for (var k in attributes) e.setAttribute(k, attributes[k]);
     if (innerHTML) e.innerHTML = innerHTML;
+
     if (container) container.appendChild(e);
 
     return e;
   }
 
-  function identify(path) {
+  function split(s) {
 
-    var cs = [];
-    var i = null;
-    var t = null;
+    var r = {};
 
-    var s = path;
+    var m = s.split(/^([^\.#@]+)?(.*)$/)
+    if (m[1]) { r.tagName = m[1]; s = m[2]; }
 
-    while (m = s.match(/^ *([#\.][^#\. ]+)/)) {
-      var m = m[1];
-      var ms = m.slice(1, m.length);
-      if (m[0] == '.') cs.push(ms);
-      else if (m[0] == '#') i = ms;
-      else t = m.toLowerCase();
-      s = s.slice(m.length, s.length);
+    while(s && (m = s.split(/^([\.#@])([^\.#@]+)/))) {
+
+      if (m[1] == '#') {
+        r.id = m[2];
+      }
+      else if (m[1] == '.') {
+        r.class = r.class || [];
+        r.class.push(m[2]);
+      }
+      else if (m[1] == '@') {
+        var kv = m[2].split('=');
+        r.atts = r.atts || {};
+        r.atts[kv[0]] = kv[1];
+      }
+
+      s = m[3];
     }
 
-    var cn = cs.join(' ');
+    if (r.class) r.class = r.class.join(' ');
 
-    return {
-      'className': cn,
-      'id': i,
-      'tagName': t,
-      'accepts': function (elt) { return hasClass(elt, cn); }
-    };
+    return r;
   }
 
   //

@@ -37,3 +37,17 @@ test('Foolbox.create(elt, tagName, ".class-a.class-b", innerHTML)', function() {
     '<div class="class-a class-b">hello</div>')
 });
 
+test('Foolbox.create(elt, "p.class-a.class-b", innerHTML)', function() {
+
+  t(
+    Foolbox.create(a, "p.class-a.class-b", "hello"),
+    '<p class="class-a class-b">hello</p>')
+});
+
+test('Foolbox.create(elt, "p#id.class@x=y", innerHTML)', function() {
+
+  t(
+    Foolbox.create(a, "p#id.class@data-x=y", "hello"),
+    '<p id="id" class="class" data-x="y">hello</p>')
+});
+
