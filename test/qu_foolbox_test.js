@@ -15,8 +15,10 @@ function jequal(actual, expected, message) {
 
 test('Foolbox.create(...)', function() {
 
-  var e = document.createElement("nada");
+  var a = document.getElementById("anchor");
+  var e = Foolbox.create(a, "div", {}, "hello");
 
-  equal("nada", $(e).html());
+  equal($(a).html(), "<div>hello</div>");
+  equal($(e).html(), "hello");
 });
 

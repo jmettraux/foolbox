@@ -22,9 +22,14 @@
  * Made in Japan.
  */
 
-var Foolbox = function() {
+var Foolbox = (function() {
 
-  function create (container, tagName, attributes, innerHTML) {
+  var self = this;
+
+  //
+  // create()
+
+  this.create = function(container, tagName, attributes, innerHTML) {
 
     var e = document.createElement(tagName);
 
@@ -70,7 +75,10 @@ var Foolbox = function() {
     };
   }
 
-  function importScript(path) {
+  //
+  // importScript()
+
+  this.importScript = function(path) {
 
     var s = document.createElement('script');
     s.src = path;
@@ -78,9 +86,10 @@ var Foolbox = function() {
     document.getElementsByTagName('head')[0].appendChild(s);
   }
 
-  return {
-    create: create,
-    importScript: importScript
-  };
-}();
+  //
+  // over.
+
+  return this;
+
+}).apply({});
 
