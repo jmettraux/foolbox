@@ -5,20 +5,35 @@
 // Mon Nov  5 11:16:48 JST 2012
 //
 
-function jequal(actual, expected, message) {
+a = document.getElementById("anchor");
 
-  equal(JSON.stringify(actual), JSON.stringify(expected), message)
+function t(e, html) {
+  $(a).html('');
+  a.appendChild(e);
+  equal($(a).html(), html);
 }
 
 //
-// the tests
+// classical usage
 
-test('Foolbox.create(...)', function() {
+test('Foolbox.create(elt, tagName, {}, innerHTML)', function() {
 
-  var a = document.getElementById("anchor");
-  var e = Foolbox.create(a, "div", {}, "hello");
+  t(
+    Foolbox.create(null, "div", {}, "hello"),
+    '<div>hello</div>');
+});
 
-  equal($(a).html(), "<div>hello</div>");
-  equal($(e).html(), "hello");
+test('Foolbox.create(elt, tagName, ".class", innerHTML)', function() {
+
+  t(
+    Foolbox.create(a, "div", ".nada", "hello"),
+    '<div class="nada">hello</div>');
+});
+
+test('Foolbox.create(elt, tagName, ".class-a.class-b", innerHTML)', function() {
+
+  t(
+    Foolbox.create(a, "div", ".class-a.class-b", "hello"),
+    '<div class="class-a class-b">hello</div>')
 });
 
