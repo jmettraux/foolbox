@@ -105,7 +105,6 @@ var Foolbox = (function() {
     while(offset < arguments.length) {
       arg = arguments[offset];
       offset++;
-      console.log(arg);
       if (isElement(arg)) e.appendChild(arg);
     }
 
