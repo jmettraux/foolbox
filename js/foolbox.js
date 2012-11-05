@@ -32,7 +32,7 @@ var Foolbox = (function() {
   function isString(o) { return ((typeof o) == 'string'); }
   function isObject(o) { return o && ((typeof o) == 'object'); }
   function isElement(o) { return o && isString(o.nodeName); }
-  function isArray(o) { return o && (o.length === +o.length); };
+  function isArray(o) { return o && ( ! isString(o)) && (o.length === +o.length); };
 
   this.create = function() {
 
@@ -90,9 +90,25 @@ var Foolbox = (function() {
     }
 
     //
-    // create
+    // creation
 
     var e = document.createElement(tagName);
+      //
+      // needed in case of nested arrays
+
+    // argument: nested array
+
+    arg = arguments[offset];
+    if (isArray(arg)) {
+      //offset++;
+      var arrays = isArray(arg[0]) ? arg : [ arg ];
+      for (var i = 0; i < arrays.length; i++) {
+        self.create.apply(null, [ e ].concat(arrays[i]));
+      }
+    }
+
+    //
+    // complete creation
 
     for (var k in attributes) e.setAttribute(k, attributes[k]);
     if (innerHTML) e.innerHTML = innerHTML;
