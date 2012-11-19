@@ -24,6 +24,8 @@
 
 var Foolbox = (function() {
 
+  var VERSION = '1.0.0';
+
   var self = this;
 
   //
@@ -78,7 +80,7 @@ var Foolbox = (function() {
       offset++;
       if (r.tagName) tagName = r.tagName;
       if (r.id) attributes.id = r.id;
-      if (r.class) attributes.class = r.class;
+      if (r['class']) attributes['class'] = r['class'];
       if (r.atts) for (var k in r.atts) { attributes[k] = r.atts[k] };
     }
 
@@ -147,8 +149,8 @@ var Foolbox = (function() {
         r.id = m[2];
       }
       else if (m[1] == '.') {
-        r.class = r.class || [];
-        r.class.push(m[2]);
+        r['class'] = r['class'] || [];
+        r['class'].push(m[2]);
       }
       else if (m[1] == '@') {
         var kv = m[2].split('=');
@@ -159,7 +161,7 @@ var Foolbox = (function() {
       s = m[3];
     }
 
-    if (r.class) r.class = r.class.join(' ');
+    if (r['class']) r['class'] = r['class'].join(' ');
 
     return r;
   }
