@@ -7,7 +7,7 @@ A tiny javascript toolbox. Nothing awesome here.
 
 ### create() (or c())
 
-Creates a DOM element
+Creates a DOM element:
 
 ```javascript
 // vanilla use
@@ -29,22 +29,62 @@ Creates a DOM element
 
   Foolbox.create(a, "p#id.class@data-x=y", "hello")
     // => <p id="id" class="class" data-x="y">hello</p>
+```
 
+Passing elements as final arguments nests them in the element created with the initial arguments:
+
+```javascript
 // nesting elements
 
   Foolbox.c(a, "#id0", Foolbox.c("#id1a"), Foolbox.c("#id1b"))
     // => <div id="id0"><div id="id1a"></div><div id="id1b"></div></div>
+```
 
+Created elements get three methods: c (create child), a (create after), b (create before):
+
+```javascript
 // elements get a c() method
 
   Foolbox.c(a, "#id0").c("#id1a").c("#id1b")
     // => <div id="id0"><div id="id1"><div id="id2"></div></div></div>
 
-// elements get a s() method
+// elements get a a() method
 
-  Foolbox.c(a, "#id0").c("#id1a").s("#id1b")
+  Foolbox.c(a, "#id0").c("#id1a").a("#id1b")
     // => <div id="id0"><div id="id1a"></div><div id="id1b"></div></div>
+
+// elements get a b() method
+
+  Foolbox.c(a, "#id0").c("#id1a").b("#id1b")
+    // => <div id="id0"><div id="id1b"></div><div id="id1a"></div></div>
 ```
+
+
+### before() (or b())
+
+Like the create() method but the resulting element is inserted before the first argument:
+
+```javascript
+  var a = Foolbox.c(document.body, "#id0")
+  Foolbox.b(a, "#id1")
+    // => <div id="id1"></div><div id="id0"></div>
+```
+
+The created element also gets the c/a/b methods.
+
+
+### after() (or a())
+
+Like the create() method but the resulting element is appended after the first argument:
+
+```javascript
+  var a = Foolbox.c(document.body, "#id0")
+  Foolbox.a(a, "#id1")
+    // => <div id="id0"></div><div id="id1"></div>
+```
+
+The created element also gets the c/a/b methods.
+
 
 ## license
 

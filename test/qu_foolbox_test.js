@@ -141,3 +141,26 @@ test('Foolbox.c(elt, "#id0").c("#id1a").s("#id1b")', function() {
     '<div id="id0"><div id="id1a"></div><div id="id1b"></div></div>');
 });
 
+//
+// Foolbox.a().a() / Foolbox.a().b()
+
+test('Foolbox.a(a1, ".alpha").a(".bravo")', function() {
+
+  tba(
+    function() {
+      $(a).append("<div id='anchor2'></div>");
+      Foolbox.a(a1, ".alpha").a(".bravo")
+    },
+    '<div id="anchor1"></div><div class="alpha"></div><div class="bravo"></div><div id="anchor2"></div>');
+});
+
+test('Foolbox.a(a1, ".alpha").b(".bravo")', function() {
+
+  tba(
+    function() {
+      $(a).append("<div id='anchor2'></div>");
+      Foolbox.a(a1, ".alpha").b(".bravo")
+    },
+    '<div id="anchor1"></div><div class="bravo"></div><div class="alpha"></div><div id="anchor2"></div>');
+});
+
