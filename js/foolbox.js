@@ -174,6 +174,30 @@ var Foolbox = (function() {
   this.c = this.create;
 
   //
+  // after()
+
+  this.after = function() {
+
+    var sibling = arguments[0];
+    if (sibling.jquery) sibling = sibling[0];
+
+    var args = [];
+    for (var i = 1, l = arguments.length; i < l; i++) { args.push(arguments[i]); }
+
+    var e = self.create.apply(null, args);
+
+    if (sibling.nextSibling)
+      sibling.parentNode.insertBefore(e, sibling.nextSibling);
+    else
+      sibling.parentNode.appendChild(e);
+
+    return e;
+  }
+
+  this.a = this.after;
+  //this.b = this.before;
+
+  //
   // importScript()
 
   this.importScript = function(path) {

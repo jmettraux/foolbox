@@ -12,6 +12,13 @@ function t(e, html) {
   a.appendChild(e);
   equal($(a).html(), html);
 }
+function tba(f, html) {
+  $(a).html('');
+  $(a).append($("<div id='anchor1'></div>"));
+  a1 = document.getElementById("anchor1");
+  f.call();
+  equal($(a).html(), html);
+}
 
 //
 // classical usage
@@ -77,6 +84,16 @@ test('Foolbox.create(a, "td", "text")', function() {
   t(
     Foolbox.create(a, "td", "text"),
     '<td>text</td>');
+});
+
+//
+// after() and before()
+
+test('Foolbox.after(a11, ".nada")', function() {
+
+  tba(
+    function() { Foolbox.after(a1, ".nada") },
+    '<div id="anchor1"></div><div class="nada"></div>');
 });
 
 //
