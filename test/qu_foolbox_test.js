@@ -89,11 +89,18 @@ test('Foolbox.create(a, "td", "text")', function() {
 //
 // after() and before()
 
-test('Foolbox.after(a11, ".nada")', function() {
+test('Foolbox.after(a1, ".nada")', function() {
 
   tba(
     function() { Foolbox.after(a1, ".nada") },
     '<div id="anchor1"></div><div class="nada"></div>');
+});
+
+test('Foolbox.before(a1, ".nada")', function() {
+
+  tba(
+    function() { Foolbox.before(a1, ".nada") },
+    '<div class="nada"></div><div id="anchor1"></div>');
 });
 
 //

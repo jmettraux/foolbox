@@ -38,6 +38,11 @@ var Foolbox = (function() {
   function isArray(o) {
     return o && ( ! isString(o)) && (o.length === +o.length); };
 
+  function refine(elt) {
+    if (elt.jquery) return elt[0];
+    return elt;
+  }
+
   this.create = function() {
 
     var container = null;
@@ -158,7 +163,7 @@ var Foolbox = (function() {
   function childCreate() {
 
     var args = [ this ];
-    for (var k in arguments) { args.push(arguments[k]); }
+    for (var k in arguments) args.push(arguments[k]);
 
     return self.create.apply(null, args);
   }
@@ -166,7 +171,7 @@ var Foolbox = (function() {
   function siblingCreate() {
 
     var args = [ this.parentNode ];
-    for (var k in arguments) { args.push(arguments[k]); }
+    for (var k in arguments) args.push(arguments[k]);
 
     return self.create.apply(null, args);
   }
@@ -178,11 +183,10 @@ var Foolbox = (function() {
 
   this.after = function() {
 
-    var sibling = arguments[0];
-    if (sibling.jquery) sibling = sibling[0];
+    var sibling = refine(arguments[0]);
 
     var args = [];
-    for (var i = 1, l = arguments.length; i < l; i++) { args.push(arguments[i]); }
+    for (var i = 1, l = arguments.length; i < l; i++) args.push(arguments[i]);
 
     var e = self.create.apply(null, args);
 
@@ -195,7 +199,25 @@ var Foolbox = (function() {
   }
 
   this.a = this.after;
-  //this.b = this.before;
+
+  //
+  // before()
+
+  this.before = function() {
+
+    var sibling = refine(arguments[0]);
+
+    var args = [];
+    for (var i = 1, l = arguments.length; i < l; i++) args.push(arguments[i]);
+
+    var e = self.create.apply(null, args);
+
+    sibling.parentNode.insertBefore(e, sibling);
+
+    return e;
+  }
+
+  this.b = this.before;
 
   //
   // importScript()
