@@ -109,7 +109,7 @@ var Foolbox = (function() {
     //
     // child elements
 
-    while(offset < arguments.length) {
+    while (offset < arguments.length) {
       arg = arguments[offset];
       offset++;
       if (isElement(arg)) e.appendChild(arg);
@@ -129,6 +129,7 @@ var Foolbox = (function() {
     e.a = siblingCreate;
 
     e.b = beforeSiblingCreate;
+    e.f = firstChildCreate;
 
     return e;
   }
@@ -173,6 +174,13 @@ var Foolbox = (function() {
     return self.create.apply(null, args);
   }
 
+  function firstChildCreate() {
+
+    var args = [ this ]; for (var k in arguments) args.push(arguments[k]);
+
+    return self.createAsFirst.apply(null, args);
+  }
+
   function siblingCreate() {
 
     var args = [ this ]; for (var k in arguments) args.push(arguments[k]);
@@ -188,6 +196,21 @@ var Foolbox = (function() {
   }
 
   this.c = this.create;
+
+  //
+  // createAsFirst() f()
+
+  this.createAsFirst = function() {
+
+    var e = self.create.apply(null, arguments);
+
+    e.parentNode.insertBefore(e, e.parentNode.firstChild);
+
+    return e;
+  }
+
+  this.caf = this.createAsFirst;
+  this.f = this.createAsFirst;
 
   //
   // after()

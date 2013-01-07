@@ -5,7 +5,7 @@
 // Mon Nov  5 11:16:48 JST 2012
 //
 
-a = document.getElementById("anchor");
+a = document.getElementById('anchor');
 
 function t(e, html) {
   $(a).html('');
@@ -86,6 +86,32 @@ test('Foolbox.create(a, "td", "text")', function() {
     '<td>text</td>');
 });
 
+test('Foolbox.c(a, "td", "text")', function() {
+
+  t(
+    Foolbox.c(a, "td", "text"),
+    '<td>text</td>');
+});
+
+//
+// createAsFirst() caf() f()
+
+test('Foolbox.f(a, "div#bravo")', function() {
+
+  tba(
+    function() {
+      Foolbox.f(a, 'div#bravo');
+    },
+    '<div id="bravo"></div><div id="anchor1"></div>');
+});
+
+test('Foolbox.f(empty, "div#bravo")', function() {
+
+  t(
+    Foolbox.f(a, 'div#bravo'),
+    '<div id="bravo"></div>');
+});
+
 //
 // after() and before()
 
@@ -162,5 +188,16 @@ test('Foolbox.a(a1, ".alpha").b(".bravo")', function() {
       Foolbox.a(a1, ".alpha").b(".bravo")
     },
     '<div id="anchor1"></div><div class="bravo"></div><div class="alpha"></div><div id="anchor2"></div>');
+});
+
+test('Foolbox.c().f()', function() {
+
+  // haven't found a good use for it, pushing it anyway...
+
+  tba(
+    function() {
+      Foolbox.c(a, 'div#alpha').f('div#bravo');
+    },
+    '<div id="anchor1"></div><div id="alpha"><div id="bravo"></div></div>');
 });
 
