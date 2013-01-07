@@ -88,7 +88,13 @@ The created element also gets the c/a/b methods.
 
 ### createAsFirst (or f())
 
-TODO
+Creates an element as the first child of the targetted container:
+
+```javascript
+  Foolbox.f(document.body, 'p', 'hello world!');
+```
+
+f() is also given to elements created by Foolbox, but it might not very useful...
 
 
 ### t() (tap)
