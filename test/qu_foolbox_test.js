@@ -218,3 +218,15 @@ test('Foolbox.c().t(func(e))', function() {
     '<div id="oompf" class="nada"></div>');
 });
 
+//
+// p()
+
+test('Foolbox.c().p().c()', function() {
+
+  tba(
+    function() {
+      Foolbox.c(a, 'div#alpha').p().c('div#bravo');
+    },
+    '<div id="anchor1"></div><div id="alpha"></div><div id="bravo"></div>');
+});
+

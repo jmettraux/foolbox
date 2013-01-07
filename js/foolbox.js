@@ -123,17 +123,23 @@ var Foolbox = (function() {
 
     if (container) container.appendChild(e);
 
-    e.c = childCreate;
-
-    e.s = siblingCreate;
-    e.a = siblingCreate;
-
-    e.b = beforeSiblingCreate;
-    e.f = firstChildCreate;
-
-    e.t = tap;
+    adorn(e);
 
     return e;
+  }
+
+  function adorn(elt) {
+
+    elt.c = childCreate;
+
+    elt.s = siblingCreate;
+    elt.a = siblingCreate;
+
+    elt.b = beforeSiblingCreate;
+    elt.f = firstChildCreate;
+
+    elt.t = tap;
+    elt.p = returnParent;
   }
 
   function split(tagName, s) {
@@ -202,6 +208,13 @@ var Foolbox = (function() {
     f.apply(null, [ this ]);
 
     return this;
+  }
+
+  function returnParent() {
+
+    adorn(this.parentNode);
+
+    return this.parentNode;
   }
 
   this.c = this.create;

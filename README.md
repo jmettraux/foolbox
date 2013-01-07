@@ -108,6 +108,15 @@ Executes the function passed as argument, but still returns the element that got
     // => <p id="para0" class="k"></p>
 ```
 
+### p()
+
+Returns the parent node of the Foolbox created element (also makes sure that this parent node is adorned with the single letter methods provided by the foolbox).
+
+```javascript
+  var a = Foolbox.c(document.body, "p#para0").p().c("p#para1").p();
+    // para0 then para1...
+```
+
 
 ## license
 
