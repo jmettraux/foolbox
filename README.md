@@ -86,6 +86,23 @@ Like the create() method but the resulting element is appended after the first a
 The created element also gets the c/a/b methods.
 
 
+### createAsFirst (or f())
+
+TODO
+
+
+### t() (tap)
+
+Executes the function passed as argument, but still returns the element that got 'tapped'.
+
+```javascript
+  var a = Foolbox.c(document.body, "p#para0").t(function(e) {
+    $(e).addClass('k');
+  });
+    // => <p id="para0" class="k"></p>
+```
+
+
 ## license
 
 MIT (see LICENSE.txt)

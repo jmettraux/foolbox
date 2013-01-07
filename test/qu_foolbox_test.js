@@ -201,3 +201,20 @@ test('Foolbox.c().f()', function() {
     '<div id="anchor1"></div><div id="alpha"><div id="bravo"></div></div>');
 });
 
+//
+// t() tap
+
+test('Foolbox.c().t(func())', function() {
+
+  t(
+    Foolbox.c('div#oompf').t(function() { 1 + 1 }),
+    '<div id="oompf"></div>');
+});
+
+test('Foolbox.c().t(func(e))', function() {
+
+  t(
+    Foolbox.c('div#oompf').t(function(e) { $(e).addClass('nada'); }),
+    '<div id="oompf" class="nada"></div>');
+});
+

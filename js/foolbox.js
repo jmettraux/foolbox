@@ -131,6 +131,8 @@ var Foolbox = (function() {
     e.b = beforeSiblingCreate;
     e.f = firstChildCreate;
 
+    e.t = tap;
+
     return e;
   }
 
@@ -193,6 +195,13 @@ var Foolbox = (function() {
     var args = [ this ]; for (var k in arguments) args.push(arguments[k]);
 
     return self.before.apply(null, args);
+  }
+
+  function tap(f) {
+
+    f.apply(null, [ this ]);
+
+    return this;
   }
 
   this.c = this.create;
