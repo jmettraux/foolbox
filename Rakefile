@@ -3,6 +3,15 @@ require 'rake'
 require 'rake/clean'
 
 
+LIBRARY =
+  `pwd`.split('/').last.strip
+LICENSE_URI =
+  "http://github.com/jmettraux/#{LIBRARY}/LICENSE.txt"
+
+COMPRESSOR =
+  %w[ yui-compressor yuicompressor ].find { |com| `which #{com}`.strip != '' }
+
+
 #
 # tasks
 
@@ -11,14 +20,14 @@ CLEAN.include('pkg')
 task :default => [ :clean ]
 
 desc %q{
-  packages the ruote-fluo js files to pkg/
+  packages/minifies the js files to pkg/
 }
 task :package => :clean do
 
   FileUtils.rm_rf('pkg')
 
   version = File.read(
-    'js/foolbox.js'
+    "js/#{LIBRARY}.js"
   ).match(
     / var VERSION *= *['"]([^'"]+)/
   )[1]
@@ -33,23 +42,23 @@ task :package => :clean do
 
     FileUtils.cp(path, "pkg/#{fname}-#{version}.js")
 
-    sh "yuicompressor #{path} -o pkg/#{fname}-#{version}.min.js"
+    sh "#{COMPRESSOR} #{path} -o pkg/#{fname}-#{version}.min.js"
 
-    File.open("pkg/foolbox-all-#{version}.js", 'ab') do |f|
+    File.open("pkg/#{LIBRARY}-all-#{version}.js", 'ab') do |f|
       f.puts(File.read(path))
     end
 
     sh(
-      "yuicompressor " +
-      "pkg/foolbox-all-#{version}.js " +
-      "-o pkg/foolbox-all-#{version}.min.js")
+      COMPRESSOR + ' ' +
+      "pkg/#{LIBRARY}-all-#{version}.js " +
+      "-o pkg/#{LIBRARY}-all-#{version}.min.js")
   end
 
   Dir['pkg/*.min.js'].each do |path|
 
     fname = File.basename(path)
 
-    header = "/* #{fname} | MIT license: http://git.io/RAWt2w */\n"
+    header = "/* #{fname} | MIT license: #{LICENSE_URI} */\n"
 
     s = header + File.read(path)
     File.open(path, 'wb') { |f| f.print(s) }
