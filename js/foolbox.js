@@ -32,11 +32,11 @@ var Foolbox = (function() {
   // create()
 
   function isString(o) {
-    return ((typeof o) == 'string'); }
+    return ((typeof o) === 'string'); }
   function isElement(o) {
     return o && isString(o.nodeName); }
   function isHash(o) {
-    return o && ((typeof o) == 'object') && ( ! isElement(o)); }
+    return o && ((typeof o) === 'object') && ( ! isElement(o)); }
   function isArray(o) {
     return o && ( ! isString(o)) && (o.length === +o.length); };
 
@@ -154,14 +154,14 @@ var Foolbox = (function() {
 
     while(s && (m = s.split(/^([\.#@])([^\.#@]+)/))) {
 
-      if (m[1] == '#') {
+      if (m[1] === '#') {
         r.id = m[2];
       }
       else if (m[1] == '.') {
         r['class'] = r['class'] || [];
         r['class'].push(m[2]);
       }
-      else if (m[1] == '@') {
+      else if (m[1] === '@') {
         var kv = m[2].split('=');
         r.atts = r.atts || {};
         r.atts[kv[0]] = kv[1];
