@@ -230,3 +230,13 @@ test('Foolbox.c().p().c()', function() {
     '<div id="anchor1"></div><div id="alpha"></div><div id="bravo"></div>');
 });
 
+//
+// jq()
+
+test('Foolbox.c().$', function() {
+
+  equal(
+    Foolbox.c(a, 'div#alpha', 'nada').$.text(),
+    'nada')
+});
+

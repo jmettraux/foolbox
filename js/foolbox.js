@@ -128,6 +128,8 @@ var Foolbox = (function() {
     return e;
   }
 
+  // Add helper methods to the newly created elt
+  //
   function adorn(elt) {
 
     elt.c = childCreate;
@@ -140,6 +142,13 @@ var Foolbox = (function() {
 
     elt.t = tap;
     elt.p = returnParent;
+
+    // obviously, this one only works if jQuery is around
+    //
+    Object.defineProperty(elt, '$', {
+      get: function() { return $(elt); },
+      set: function() {}
+    });
   }
 
   function split(tagName, s) {

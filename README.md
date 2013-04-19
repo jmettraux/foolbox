@@ -3,6 +3,7 @@
 
 A tiny javascript toolbox. Nothing awesome here.
 
+
 ## usage
 
 ### create() (or c())
@@ -115,6 +116,15 @@ Returns the parent node of the Foolbox created element (also makes sure that thi
 ```javascript
   var a = Foolbox.c(document.body, "p#para0").p().c("p#para1").p();
     // para0 then para1...
+```
+
+### $
+
+This pseudo-property returns the jQuery wrapped elt. Won't work if jQuery isn't around.
+
+
+```javascript
+  Foolbox.c(document.body, "p#para0").$.hide();
 ```
 
 
