@@ -37,7 +37,7 @@ var Nu = (function() {
   var self = this;
 
   function isListy(o) {
-    //return (typeof obj.length == 'number');
+    //return (typeof obj.length === 'number');
     return (o.length === +o.length);
   };
 
@@ -84,7 +84,7 @@ var Nu = (function() {
   // inject, foldl, reduce
 
   this.inject = function(coll, memo, func) {
-    if (arguments.length == 2) func = memo;
+    if (arguments.length === 2) func = memo;
     var nomemo = arguments.length < 3;
     self.each(coll, function(a, b) {
       if (nomemo) { memo = isListy(coll) ? a : b; nomemo = false; return; }
@@ -137,7 +137,7 @@ var Nu = (function() {
     if (depth < -1) depth = -1;
 
     self.each(ar, function(e) {
-      if (Array.isArray(e) && (depth == -1 || depth > 0))
+      if (Array.isArray(e) && (depth === -1 || depth > 0))
         flatten(e, depth - 1, result);
       else
         result.push(e);
@@ -156,7 +156,7 @@ var Nu = (function() {
 
   this.isEmpty = function(o) {
 
-    if (isListy(o)) return o.length == 0;
+    if (isListy(o)) return o.length === 0;
     for (var k in o) { if (o.hasOwnProperty(k)) return false; }
     return true;
   };
@@ -187,12 +187,12 @@ var Nu = (function() {
 
     if (Array.isArray(coll)) {
       return self.eachWithObject(coll, [], function(e, a) {
-        if (e != undefined && e != null) a.push(e);
+        if (e !== undefined && e !== null) a.push(e);
       });
     }
     else {
       return self.eachWithObject(coll, {}, function(k, v, h) {
-        if (v != undefined && v != null) h[k] = v;
+        if (v !== undefined && v !== null) h[k] = v;
       });
     }
   };
@@ -207,7 +207,7 @@ var Nu = (function() {
   else
     this.include = function(ar, o) {
       for (var i = 0, l = ar.length; i < l; i++) {
-        if (ar[i] == o) return true
+        if (ar[i] === o) return true
       }
       return false;
     }

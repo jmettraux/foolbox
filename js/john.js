@@ -46,23 +46,23 @@ var John = (function() {
 
       car = cdr.slice(0, 1); cdr = cdr.slice(1);
 
-      if (q == false && car.match(/['"]/)) {
+      if (q === false && car.match(/['"]/)) {
         q = car;
       }
-      else if (q == false) {
+      else if (q === false) {
         str = str + car;
         q = true;
       }
-      else if (car == q) {
+      else if (car === q) {
         del = cdr.slice(0, 1);
         cdr = cdr.slice(1);
         break;
       }
-      else if (q == true && curly == false && car.match(/[:,]/)) {
+      else if (q === true && curly === false && car.match(/[:,]/)) {
         del = car;
         break;
       }
-      else if (car == '\\') {
+      else if (car === '\\') {
         ncar = cdr.slice(0, 1); ncdr = cdr.slice(1);
         if (ncar.match(/[^"']/)) str = str + car;
         car = ncar; cdr = ncdr;
@@ -71,16 +71,16 @@ var John = (function() {
       else {
         str = str + car;
 
-        if (car == '{') curly = (curly || 0) + 1;
-        else if (car == '}') curly = (curly || 0) - 1;
+        if (car === '{') curly = (curly || 0) + 1;
+        else if (car === '}') curly = (curly || 0) - 1;
         if (curly < 1) curly = false;
 
         if ( ! cdr) break;
       }
     }
 
-    if (q == true) str = str.trim();
-    if (del == '') del = null;
+    if (q === true) str = str.trim();
+    if (del === '') del = null;
     cdr = cdr.trim();
 
     return [ str, del, cdr ];
@@ -103,7 +103,7 @@ var John = (function() {
     var v = null;
     var del = ek[1];
     var cdr = ek[2];
-    if (del == ':') {
+    if (del === ':') {
       ev = extractString(cdr);
       v = parse(ev[0]);
       del = ev[1];
@@ -111,7 +111,7 @@ var John = (function() {
     }
     accu[k] = v;
 
-    if (del == ',') parseObject(cdr, accu);
+    if (del === ',') parseObject(cdr, accu);
 
     return accu;
   }
@@ -120,7 +120,7 @@ var John = (function() {
 
     s = s.trim();
 
-    if (s == 'null') return null;
+    if (s === 'null') return null;
 
     var j = tryParse(s);
     if (j != undefined) return j;
@@ -140,11 +140,11 @@ var John = (function() {
 
   function stringify(o) {
 
-    if (o == null) return 'null'
+    if (o === null) return 'null'
 
     var t = (typeof o);
 
-    if (t == 'number' || t == 'boolean') return '' + o;
+    if (t === 'number' || t === 'boolean') return '' + o;
 
     if (o instanceof Array) {
       var a = [];
@@ -152,7 +152,7 @@ var John = (function() {
       if (a.length < 1) return '[]'
       return '[ ' + a.join(', ') + ' ]';
     }
-    if (t == 'object') {
+    if (t === 'object') {
       var a = [];
       for(var k in o) {
         var s = stringify(k);
