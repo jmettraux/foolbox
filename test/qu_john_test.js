@@ -64,6 +64,18 @@ test('John.parse(o) relaxed objects', function() {
   j_assert("{ a: 0, b: 1 }", { a: 0, b: 1 });
 });
 
+test('John.parse(o) (readme)', function() {
+
+  var r =
+    John.parse(
+      "{ a: alpha, b: 'bra vo', 'c': [ delta, echo ] }"
+    );
+
+  deepEqual(
+    r,
+    { a: 'alpha', b: 'bra vo', c: [ 'delta', 'echo' ] });
+});
+
 
 //
 // testing John.extractString(s) behind the scenes
@@ -119,5 +131,8 @@ test('John.stringify(o)', function() {
   s_assert({ a: 0, b: 1 }, '{ a: 0, b: 1 }');
   s_assert({ a: 'apple', b: 'pie' }, '{ a: apple, b: pie }');
   s_assert({ a: null, b: 'burger' }, '{ a, b: burger }');
+});
+
+test('John.stringify(o) (readme)', function() {
 });
 
