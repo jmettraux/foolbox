@@ -3,8 +3,32 @@
 
 A tiny javascript toolbox. Nothing awesome here.
 
+Foolbox is a collection of 3 libraries.
 
-## usage
+First, [foolbox](#foolbox) itself provides quick methods for building DOM elements.
+
+```javascript
+  Foolbox.c(elt, "p#id.class@data-x=y", "hello");
+    // => <p id="id" class="class" data-x="y">hello</p>
+```
+
+Second, [nu](#nu) is a library for dealing with arrays and hashes (cough, objects), collect, select, inject, etc.
+
+```javascript
+  var r = Nu.eachWithObject({ a: 1, b: 2, c: 3 }, {}, function(k, v, h) {
+    if (v != 2) h[k] = v * 2;
+  });
+    // => { a: 2, c: 6 }
+```
+
+Third, [john](#john) is a library for parsing/emitting loose JSON/JS serializsation string.
+
+```javascript
+  // TODO
+```
+
+
+## foolbox
 
 ### create() (or c())
 
@@ -126,6 +150,14 @@ This pseudo-property returns the jQuery wrapped elt. Won't work if jQuery isn't 
 ```javascript
   Foolbox.c(document.body, "p#para0").$.hide();
 ```
+
+## nu
+
+TODO
+
+## john
+
+TODO
 
 
 ## license
