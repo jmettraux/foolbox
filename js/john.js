@@ -26,119 +26,98 @@
 //
 var John = (function() {
 
-  function tryParse(s) {
+  var self = this;
 
-    try { return JSON.parse(s); } catch (e) {}; return undefined;
+  function jp(s) {
+    try { return JSON.parse(s); } catch(e) {}; return undefined;
+  }
+  function js(o) {
+    return JSON.stringify(o);
   }
 
-  function extractString(s) {
+  var SPA = ' \t';
 
-    s = s.trim();
+  function ltrim(s) {
+    while (s.length > 0 && SPA.indexOf(s.slice(0, 1)) > -1) { s = s.slice(1); }
+    return s;
+  }
 
-    var str = '';
-    var del = null;
-    var car = null;
-    var cdr = s;
-    var q = false;
-    var curly = false;
+  var GSQ = /^'((?:\\.|[^'])*)'/;
+  var GSDQ = /^"((?:\\.|[^"])*)"/;
 
-    while(true) {
+  function grabString(quote, s) {
+    return (quote === '"' ? GSDQ : GSQ).exec(s)[1];
+  }
 
-      car = cdr.slice(0, 1); cdr = cdr.slice(1);
+  var NS = /^[^}\],:\s]+/;
 
-      if (q === false && car.match(/['"]/)) {
-        q = car;
-      }
-      else if (q === false) {
-        str = str + car;
-        q = true;
-      }
-      else if (car === q) {
-        del = cdr.slice(0, 1);
-        cdr = cdr.slice(1);
-        break;
-      }
-      else if (q === true && curly === false && car.match(/[:,]/)) {
-        del = car;
-        break;
-      }
-      else if (car === '\\') {
-        ncar = cdr.slice(0, 1); ncdr = cdr.slice(1);
-        if (ncar.match(/[^"']/)) str = str + car;
-        car = ncar; cdr = ncdr;
-        str = str + ncar;
-      }
-      else {
-        str = str + car;
+  function grabNonString(s) {
+    return NS.exec(s)[0];
+  }
 
-        if (car === '{') curly = (curly || 0) + 1;
-        else if (car === '}') curly = (curly || 0) - 1;
-        if (curly < 1) curly = false;
+  var SEP = '{}[],:';
 
-        if ( ! cdr) break;
-      }
+  function tokenize(result, s) {
+
+    s = ltrim(s);
+
+    var c = s.slice(0, 1);
+    if (c.length === 0) {
+      return result;
     }
-
-    if (q === true) str = str.trim();
-    if (del === '') del = null;
-    cdr = cdr.trim();
-
-    return [ str, del, cdr ];
-  }
-
-  function parseArray(s, accu) {
-
-    var es = extractString(s);
-    accu.push(parse(es[0]));
-
-    if (es[1]) parseArray(es[2], accu);
-
-    return accu;
-  }
-
-  function parseObject(s, accu) {
-
-    var ek = extractString(s);
-    var k = ek[0];
-    var v = null;
-    var del = ek[1];
-    var cdr = ek[2];
-    if (del === ':') {
-      ev = extractString(cdr);
-      v = parse(ev[0]);
-      del = ev[1];
-      cdr = ev[2];
+    var i = SEP.indexOf(c);
+    if (i > -1) {
+      if (i < 4) result.push(i);
+      return tokenize(result, s.slice(1));
     }
-    accu[k] = v;
-
-    if (del === ',') parseObject(cdr, accu);
-
-    return accu;
-  }
-
-  function parse(s) {
-
-    s = s.trim();
-
-    if (s === 'null') return null;
-
-    var j = tryParse(s);
-    if (j != undefined) return j;
-
-    var m;
-
-    if (s.match(/^\[.*\]$/)) {
-      return parseArray(s.slice(1, -1), []);
-    } else if (s.match(/^{.*}$/)) {
-      return parseObject(s.slice(1, -1), {});
-    } else if (m = s.match(/^'(.*)'$/)) {
-      return m[1];
-    } else {
-      return s;
+    if (c === '"' || c === "'") {
+      var str = grabString(c, s);
+      result.push(str);
+      return tokenize(result, s.slice(str.length + 2));
     }
+    var nstr = grabNonString(s);
+    result.push(nstr);
+    return tokenize(result, s.slice(nstr.length));
+  }
+  this.t = tokenize; // testing
+
+  function doParseObject(tokens) {
+    var o = {};
+    while (true) {
+      var k = doParse(tokens);
+      if (k === undefined) break;
+      o[k] = doParse(tokens);
+    }
+    return o;
+  };
+  function doParseArray(tokens) {
+    var a = [];
+    while (true) {
+      var e = doParse(tokens);
+      if (e === undefined) break;
+      a.push(e);
+    }
+    return a;
+  };
+
+  function doParse(tokens) {
+
+    var token = tokens.shift();
+
+    if (token === 0) return doParseObject(tokens);
+    if (token === 2) return doParseArray(tokens);
+    if (token === 1 || token === 3) return undefined;
+
+    var j = jp(token);
+    return j === undefined ? token : j;
   }
 
-  function stringify(o) {
+  this.parse = function(s) {
+
+    return doParse(tokenize([], s));
+  }
+
+  this.stringify = function(o) {
 
     if (o === null) return 'null'
 
@@ -148,34 +127,26 @@ var John = (function() {
 
     if (o instanceof Array) {
       var a = [];
-      o.forEach(function(e) { a.push(stringify(e)); });
+      o.forEach(function(e) { a.push(self.stringify(e)); });
       if (a.length < 1) return '[]'
       return '[ ' + a.join(', ') + ' ]';
     }
     if (t === 'object') {
       var a = [];
       for(var k in o) {
-        var s = stringify(k);
+        var s = self.stringify(k);
         var v = o[k];
-        if (v != null) s = s + ': ' + stringify(v);
+        if (v != null) s = s + ': ' + self.stringify(v);
         a.push(s);
       }
       if (a.length < 1) return '{}'
       return '{ ' + a.join(', ') + ' }';
     }
 
-    if (o.match(/[\s:,]/)) return JSON.stringify(o);
+    if (o.match(/[\s:,]/)) return js(o);
 
     return o;
   }
-
-  this._es = extractString; // for testing purposes
-
-  //
-  // the public interface
-
-  this.parse = parse;
-  this.stringify = stringify;
 
   return this;
 

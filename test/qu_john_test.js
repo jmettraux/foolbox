@@ -41,16 +41,18 @@ test('John.parse(o) single quoted strings', function() {
 test('John.parse(o) standalone strings', function() {
 
   j_assert("炊飯器", '炊飯器');
-  j_assert("de nada", 'de nada');
+  //j_assert("de nada", 'de nada');
 });
 
 test('John.parse(o) vanilla arrays', function() {
 
+  j_assert('[]', []);
   j_assert('[ 1, 2, "trois" ]', [ 1, 2, 'trois' ]);
 });
 
 test('John.parse(o) vanilla objects', function() {
 
+  j_assert('{}', {});
   j_assert('{ "a": 1 }', { a: 1 });
 });
 
@@ -76,36 +78,22 @@ test('John.parse(o) (readme)', function() {
     { a: 'alpha', b: 'bra vo', c: [ 'delta', 'echo' ] });
 });
 
+function t(s, expected, message) {
 
-//
-// testing John.extractString(s) behind the scenes
-
-function es_assert(source, expected, message) {
-
-  deepEqual(John._es(source), expected, message)
+  deepEqual(John.t([], s), expected, message);
 }
 
-test('John.extractString(s)', function() {
+test('John tokenization', function() {
 
-  es_assert('abc', [ 'abc', null, '' ]);
-  es_assert('"abc"', [ 'abc', null, '' ]);
-  es_assert("'abc'", [ 'abc', null, '' ]);
-
-  es_assert('"ab\\"c"', [ 'ab"c', null, '' ]);
-  es_assert("'ab\"c'", [ 'ab"c', null, '' ]);
-  es_assert("'ab\\\'c'", [ 'ab\'c', null, '' ]);
-
-  es_assert('abc: xxx', [ 'abc', ':', 'xxx' ]);
-  es_assert('abc : xxx', [ 'abc', ':', 'xxx' ]);
-  es_assert('"abc": xxx', [ 'abc', ':', 'xxx' ]);
-  es_assert("'abc': xxx", [ 'abc', ':', 'xxx' ]);
-  es_assert('"de nada": xxx', [ 'de nada', ':', 'xxx' ]);
-
-  es_assert('abc, xxx', [ 'abc', ',', 'xxx' ]);
-  es_assert('abc , xxx', [ 'abc', ',', 'xxx' ]);
-  es_assert('"abc", xxx', [ 'abc', ',', 'xxx' ]);
-  es_assert("'abc', xxx", [ 'abc', ',', 'xxx' ]);
-  es_assert('"de nada", xxx', [ 'de nada', ',', 'xxx' ]);
+  t(
+    "'a string'",
+    [ "a string" ]);
+  t(
+    "{ a: b, c: d }",
+    [ 0, "a", "b", "c", "d", 1 ]);
+  t(
+    "{ 'a': [ 1, 2, 'trois' ], c: d }",
+    [ 0, "a", 2, "1", "2", "trois", 3, "c", "d", 1 ]);
 });
 
 
