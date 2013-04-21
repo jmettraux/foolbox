@@ -54,6 +54,7 @@ test('John.parse(o) vanilla objects', function() {
 
   pa('{}', {});
   pa('{ "a": 1 }', { a: 1 });
+  pa('{ "a": 1, "b": "deux" }', { a: 1, b: 'deux' });
 });
 
 test('John.parse(o) relaxed arrays', function() {
@@ -67,6 +68,13 @@ test('John.parse(o) relaxed objects', function() {
   pa("{ a: 0, b: 1 }", { a: 0, b: 1 });
   pa("{ a 0, b 1 }", { a: 0, b: 1 });
   pa("{ a 0 b 1 }", { a: 0, b: 1 });
+});
+
+test('John.parse(o) very relaxed objects', function() {
+
+  pa('{ alpha, "task": "clean lab" }', { alpha: null, task: 'clean lab' });
+  pa('{ "alpha", "task": "clean lab" }', { alpha: null, task: 'clean lab' });
+  pa('{ alpha, task }', { alpha: null, task: null });
 });
 
 test('John.parse(o) (readme)', function() {
@@ -93,10 +101,10 @@ test('John tokenization', function() {
     [ "a string" ]);
   ta(
     "{ a: b, c: d }",
-    [ 0, "a", "b", "c", "d", 1 ]);
+    [ 0, "a", "b", 4, "c", "d", 1 ]);
   ta(
     "{ 'a': [ 1, 2, 'trois' ], c: d }",
-    [ 0, "a", 2, "1", "2", "trois", 3, "c", "d", 1 ]);
+    [ 0, "a", 2, "1", 4, "2", 4, "trois", 3, 4, "c", "d", 1 ]);
 });
 
 

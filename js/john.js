@@ -67,7 +67,7 @@ var John = (function() {
     }
     var i = SEP.indexOf(c);
     if (i > -1) {
-      if (i < 4) result.push(i);
+      if (i < 5) result.push(i);
       return tokenize(result, s.slice(1));
     }
     if (c === '"' || c === "'") {
@@ -81,12 +81,16 @@ var John = (function() {
   }
   this.t = tokenize; // testing
 
+  var comma = {};
+
   function doParseObject(tokens) {
     var o = {};
     while (true) {
       var k = doParse(tokens);
+      if (k === comma) continue;
       if (k === undefined) break;
-      o[k] = doParse(tokens);
+      var v = doParse(tokens);
+      o[k] = (v === comma || v === undefined) ? null : v;
     }
     return o;
   };
@@ -94,6 +98,7 @@ var John = (function() {
     var a = [];
     while (true) {
       var e = doParse(tokens);
+      if (e === comma) continue;
       if (e === undefined) break;
       a.push(e);
     }
@@ -104,9 +109,10 @@ var John = (function() {
 
     var token = tokens.shift();
 
-    if (token === 0) return doParseObject(tokens);
-    if (token === 2) return doParseArray(tokens);
-    if (token === 1 || token === 3) return undefined;
+    if (token === 0) return doParseObject(tokens);     // {
+    if (token === 2) return doParseArray(tokens);      // [
+    if (token === 1 || token === 3) return undefined;  // } or ]
+    if (token === 4) return comma;                     // ,
 
     var j = jp(token);
     return j === undefined ? token : j;
