@@ -166,7 +166,7 @@ var Foolbox = (function() {
       if (m[1] === '#') {
         r.id = m[2];
       }
-      else if (m[1] == '.') {
+      else if (m[1] === '.') {
         r['class'] = r['class'] || [];
         r['class'].push(m[2]);
       }
@@ -303,4 +303,4 @@ var Foolbox = (function() {
 }).apply({});
 
 
-/* compressed from commit 6e57f57 */
+/* compressed from commit 7ae7231 */
