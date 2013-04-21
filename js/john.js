@@ -116,6 +116,7 @@ var John = (function() {
 
     return doParse(tokenize([], s));
   }
+  this.p = this.parse; // shortcut
 
   this.stringify = function(o) {
 
@@ -127,7 +128,7 @@ var John = (function() {
 
     if (o instanceof Array) {
       var a = [];
-      o.forEach(function(e) { a.push(self.stringify(e)); });
+      o.forEach(function(e) { a.push(self.s(e)); });
       if (a.length < 1) return '[]'
       return '[ ' + a.join(', ') + ' ]';
     }
@@ -136,7 +137,7 @@ var John = (function() {
       for(var k in o) {
         var s = self.stringify(k);
         var v = o[k];
-        if (v != null) s = s + ': ' + self.stringify(v);
+        if (v != null) s = s + ': ' + self.s(v);
         a.push(s);
       }
       if (a.length < 1) return '{}'
@@ -147,6 +148,7 @@ var John = (function() {
 
     return o;
   }
+  this.s = this.stringify; // shortcut
 
   return this;
 

@@ -59,11 +59,14 @@ test('John.parse(o) vanilla objects', function() {
 test('John.parse(o) relaxed arrays', function() {
 
   j_assert("[ 1, 2, 'trois' ]", [ 1, 2, 'trois' ]);
+  j_assert("[ 1 2 'trois' ]", [ 1, 2, 'trois' ]);
 });
 
 test('John.parse(o) relaxed objects', function() {
 
   j_assert("{ a: 0, b: 1 }", { a: 0, b: 1 });
+  j_assert("{ a 0, b 1 }", { a: 0, b: 1 });
+  j_assert("{ a 0 b 1 }", { a: 0, b: 1 });
 });
 
 test('John.parse(o) (readme)', function() {
@@ -122,5 +125,10 @@ test('John.stringify(o)', function() {
 });
 
 test('John.stringify(o) (readme)', function() {
+
+  s_assert(
+    { a: 0, b: "trois", 'c': true, d: [ 'alpha', 'bravo', 'charly' ] },
+    '{ a: 0, b: trois, c: true, d: [ alpha, bravo, charly ] }'
+  );
 });
 

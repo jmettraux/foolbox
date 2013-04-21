@@ -24,7 +24,17 @@ Second, [nu](#nu) is a library for dealing with arrays and hashes (cough, object
 Third, [john](#john) is a library for parsing/emitting loose JSON/JS serializsation string.
 
 ```javascript
-  // TODO
+  // John is lazy, but not ambiguous
+  //
+  John.stringify(
+    { a: 0, b: "trois", 'c': true, d: [ 'alpha', 'bravo', 'charly' ] }
+  )
+    // => '{ a: 0, b: trois, c: true, d: [ alpha, bravo, charly ] }'
+
+  // likewise
+  //
+  John.parse('{ a: 0, b: tres, c: true, d: [ al, bob, cat ] }')
+    // yields { a: 0, b: "tres", 'c': true, d: [ 'al', 'bob', 'cat' ] }
 ```
 
 
@@ -157,7 +167,7 @@ TODO
 
 ## john
 
-TODO
+TODO John.parse(), John.p(), John.stringify(), John.s()
 
 
 ## license
