@@ -77,6 +77,10 @@ task :package => :clean do
   footer = "\n/* compressed from commit #{sha} */\n"
 
   Dir['pkg/*.js'].each { |path| File.open(path, 'ab') { |f| f.puts(footer) } }
+
+  sh(
+    "mkdir -p pkg/css-#{version}; cp css/* pkg/css-#{version}/"
+  ) if File.exist?('css')
 end
 
 desc %q{
