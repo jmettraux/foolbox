@@ -156,6 +156,13 @@ var John = (function() {
   }
   this.s = this.stringify; // shortcut
 
+  this.sfy = function(o) {
+
+    var s = this.stringify(o);
+    if (s.match(/^{.*}$/) || s.match(/^\[.*\]$/)) s = s.slice(2, -2);
+    return s;
+  }
+
   return this;
 
 }).apply({});

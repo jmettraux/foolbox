@@ -140,3 +140,19 @@ test('John.stringify(o) (readme)', function() {
   );
 });
 
+test('John.sfy(o)', function() {
+
+  // vanilla case
+
+  equal(John.sfy({}), '');
+  equal(John.sfy({ a: 'apple' }), 'a: apple');
+  equal(John.sfy({ a: 'apple', b: 2 }), 'a: apple, b: 2');
+
+  // other cases
+
+  equal(John.sfy([]), '');
+  equal(John.sfy([ 1, 2, 3 ]), '1, 2, 3');
+  equal(John.sfy("abc"), 'abc');
+  equal(John.sfy([ 1, 'deux', 3 ]), '1, deux, 3');
+});
+

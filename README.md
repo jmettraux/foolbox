@@ -167,7 +167,7 @@ TODO
 
 ## john
 
-TODO John.parse(), John.p(), John.stringify(), John.s()
+TODO John.parse(), John.p(), John.stringify(), John.s(), John.sfy()
 
 
 ## license
