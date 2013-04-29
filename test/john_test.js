@@ -175,3 +175,13 @@ test('John.sfy(o)', function() {
   equal(John.sfy([ 1, 'deux', 3 ]), '1, deux, 3');
 });
 
+test('John.sfy(o, { ruby: true })', function() {
+
+  equal(John.sfy(null, { ruby: true }), 'nil');
+
+  equal(John.sfy({ a: 'apple' }, { ruby: true }), 'a: "apple"');
+  equal(John.sfy({ a: 'ap ple' }, { ruby: true }), 'a: "ap ple"');
+
+  equal(John.sfy([ 'a', 'b', null ], { ruby: true }), '"a", "b", nil');
+});
+
