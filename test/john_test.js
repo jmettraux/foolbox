@@ -140,6 +140,15 @@ test('John.stringify(o) (readme)', function() {
   );
 });
 
+test('John.stringify(o, { quote: true })', function() {
+
+  equal(John.s({ a: 'apple' }, { quote: true }), '{ a: "apple" }');
+  equal(John.s({ a: 'ap ple' }, { quote: true }), '{ a: "ap ple" }');
+
+  equal(John.s([ 'a', 'b', 'c' ], { quote: true }), '[ "a", "b", "c" ]');
+});
+
+
 test('John.sfy(o)', function() {
 
   // vanilla case

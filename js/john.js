@@ -124,7 +124,9 @@ var John = (function() {
   }
   this.p = this.parse; // shortcut
 
-  this.stringify = function(o) {
+  this.stringify = function(o, opts) {
+
+    opts = opts || {};
 
     if (o === null) return 'null'
 
@@ -134,7 +136,7 @@ var John = (function() {
 
     if (o instanceof Array) {
       var a = [];
-      o.forEach(function(e) { a.push(self.s(e)); });
+      o.forEach(function(e) { a.push(self.s(e, opts)); });
       return (a.length < 1) ? '[]' : '[ ' + a.join(', ') + ' ]';
     }
     if (t === 'object') {
@@ -142,13 +144,15 @@ var John = (function() {
       for(var k in o) {
         var s = self.s(k);
         var v = o[k];
-        if (v !== null) s = s + ': ' + self.s(v);
+        if (v !== null) s = s + ': ' + self.s(v, opts);
         a.push(s);
       }
       return (a.length < 1) ? '{}' : '{ ' + a.join(', ') + ' }';
     }
 
-    return o.match(/[\s:,]/) ? js(o) : o;
+    if (o.match(/[\s:,]/) || opts.quote) return js(o);
+
+    return o;
   }
   this.s = this.stringify; // shortcut
 
