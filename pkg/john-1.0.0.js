@@ -155,9 +155,9 @@ var John = (function() {
   }
   this.s = this.stringify; // shortcut
 
-  this.sfy = function(o) {
+  this.sfy = function(o, opts) {
 
-    var s = this.stringify(o);
+    var s = this.stringify(o, opts);
     if (s.match(/^{.*}$/) || s.match(/^\[.*\]$/)) s = s.slice(1, -1).trim();
     return s;
   }
@@ -167,4 +167,4 @@ var John = (function() {
 }).apply({});
 
 
-/* compressed from commit d16f068 */
+/* compressed from commit 5ee072e */

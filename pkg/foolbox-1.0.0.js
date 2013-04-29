@@ -303,4 +303,4 @@ var Foolbox = (function() {
 }).apply({});
 
 
-/* compressed from commit d16f068 */
+/* compressed from commit 5ee072e */
