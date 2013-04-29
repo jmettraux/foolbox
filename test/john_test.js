@@ -148,6 +148,16 @@ test('John.stringify(o, { quote: true })', function() {
   equal(John.s([ 'a', 'b', 'c' ], { quote: true }), '[ "a", "b", "c" ]');
 });
 
+test('John.stringify(o, { ruby: true })', function() {
+
+  equal(John.s(null, { ruby: true }), 'nil');
+
+  equal(John.s({ a: 'apple' }, { ruby: true }), '{ a: "apple" }');
+  equal(John.s({ a: 'ap ple' }, { ruby: true }), '{ a: "ap ple" }');
+
+  equal(John.s([ 'a', 'b', null ], { ruby: true }), '[ "a", "b", nil ]');
+});
+
 
 test('John.sfy(o)', function() {
 

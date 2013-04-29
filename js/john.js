@@ -128,7 +128,7 @@ var John = (function() {
 
     opts = opts || {};
 
-    if (o === null) return 'null'
+    if (o === null) return opts.ruby ? 'nil' : 'null';
 
     var t = (typeof o);
 
@@ -139,6 +139,7 @@ var John = (function() {
       o.forEach(function(e) { a.push(self.s(e, opts)); });
       return (a.length < 1) ? '[]' : '[ ' + a.join(', ') + ' ]';
     }
+
     if (t === 'object') {
       var a = [];
       for(var k in o) {
@@ -150,9 +151,7 @@ var John = (function() {
       return (a.length < 1) ? '{}' : '{ ' + a.join(', ') + ' }';
     }
 
-    if (o.match(/[\s:,]/) || opts.quote) return js(o);
-
-    return o;
+    return (o.match(/[\s:,]/) || opts.quote || opts.ruby) ? js(o) : o;
   }
   this.s = this.stringify; // shortcut
 
