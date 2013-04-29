@@ -135,31 +135,27 @@ var John = (function() {
     if (o instanceof Array) {
       var a = [];
       o.forEach(function(e) { a.push(self.s(e)); });
-      if (a.length < 1) return '[]'
-      return '[ ' + a.join(', ') + ' ]';
+      return (a.length < 1) ? '[]' : '[ ' + a.join(', ') + ' ]';
     }
     if (t === 'object') {
       var a = [];
       for(var k in o) {
-        var s = self.stringify(k);
+        var s = self.s(k);
         var v = o[k];
-        if (v != null) s = s + ': ' + self.s(v);
+        if (v !== null) s = s + ': ' + self.s(v);
         a.push(s);
       }
-      if (a.length < 1) return '{}'
-      return '{ ' + a.join(', ') + ' }';
+      return (a.length < 1) ? '{}' : '{ ' + a.join(', ') + ' }';
     }
 
-    if (o.match(/[\s:,]/)) return js(o);
-
-    return o;
+    return o.match(/[\s:,]/) ? js(o) : o;
   }
   this.s = this.stringify; // shortcut
 
   this.sfy = function(o) {
 
     var s = this.stringify(o);
-    if (s.match(/^{.*}$/) || s.match(/^\[.*\]$/)) s = s.slice(2, -2);
+    if (s.match(/^{.*}$/) || s.match(/^\[.*\]$/)) s = s.slice(1, -1).trim();
     return s;
   }
 
