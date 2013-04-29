@@ -124,9 +124,11 @@ var John = (function() {
   }
   this.p = this.parse; // shortcut
 
-  this.stringify = function(o) {
+  this.stringify = function(o, opts) {
 
-    if (o === null) return 'null'
+    opts = opts || {};
+
+    if (o === null) return opts.ruby ? 'nil' : 'null';
 
     var t = (typeof o);
 
@@ -134,32 +136,29 @@ var John = (function() {
 
     if (o instanceof Array) {
       var a = [];
-      o.forEach(function(e) { a.push(self.s(e)); });
-      if (a.length < 1) return '[]'
-      return '[ ' + a.join(', ') + ' ]';
+      o.forEach(function(e) { a.push(self.s(e, opts)); });
+      return (a.length < 1) ? '[]' : '[ ' + a.join(', ') + ' ]';
     }
+
     if (t === 'object') {
       var a = [];
       for(var k in o) {
-        var s = self.stringify(k);
+        var s = self.s(k);
         var v = o[k];
-        if (v != null) s = s + ': ' + self.s(v);
+        if (v !== null) s = s + ': ' + self.s(v, opts);
         a.push(s);
       }
-      if (a.length < 1) return '{}'
-      return '{ ' + a.join(', ') + ' }';
+      return (a.length < 1) ? '{}' : '{ ' + a.join(', ') + ' }';
     }
 
-    if (o.match(/[\s:,]/)) return js(o);
-
-    return o;
+    return (o.match(/[\s:,]/) || opts.quote || opts.ruby) ? js(o) : o;
   }
   this.s = this.stringify; // shortcut
 
   this.sfy = function(o) {
 
     var s = this.stringify(o);
-    if (s.match(/^{.*}$/) || s.match(/^\[.*\]$/)) s = s.slice(2, -2);
+    if (s.match(/^{.*}$/) || s.match(/^\[.*\]$/)) s = s.slice(1, -1).trim();
     return s;
   }
 
@@ -168,4 +167,4 @@ var John = (function() {
 }).apply({});
 
 
-/* compressed from commit 75e76fb */
+/* compressed from commit d16f068 */
