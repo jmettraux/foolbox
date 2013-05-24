@@ -219,7 +219,7 @@ test('Foolbox.c().t(func(e))', function() {
 });
 
 //
-// p()
+// p() parent
 
 test('Foolbox.c().p().c()', function() {
 
@@ -228,6 +228,18 @@ test('Foolbox.c().p().c()', function() {
       Foolbox.c(a, 'div#alpha').p().c('div#bravo');
     },
     '<div id="anchor1"></div><div id="alpha"></div><div id="bravo"></div>');
+});
+
+//
+// e() empty
+
+test('Foolbox.e()', function() {
+
+  Foolbox.c(a, 'span', 'nada');
+
+  t(
+    Foolbox.e(a).c('span', 'really nada'),
+    '<span>really nada</span>');
 });
 
 //

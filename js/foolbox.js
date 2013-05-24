@@ -145,10 +145,12 @@ var Foolbox = (function() {
 
     // obviously, this one only works if jQuery is around
     //
-    Object.defineProperty(elt, '$', {
-      get: function() { return $(elt); },
-      set: function() {}
-    });
+    try {
+      Object.defineProperty(elt, '$', {
+        get: function() { return $(elt); },
+        set: function() {}
+      });
+    } catch(ex) {}
   }
 
   function split(tagName, s) {
@@ -242,6 +244,21 @@ var Foolbox = (function() {
 
   this.caf = this.createAsFirst;
   this.f = this.createAsFirst;
+
+  //
+  // empty() e()
+
+  this.empty = function() {
+
+    var e = refine(arguments[0]);
+    while (e.firstChild) e.removeChild(e.firstChild);
+
+    adorn(e);
+
+    return e;
+  };
+
+  this.e = this.empty;
 
   //
   // after()
