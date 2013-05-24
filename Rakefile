@@ -42,8 +42,6 @@ task :package => :clean do
   js_count = Dir['js/*.js'].length
     # don't create -all- files if there is only 1 js file
 
-  FileUtils.rm_f("pkg/#{LIBRARY}-all-#{version}.js")
-
   Dir['js/*.js'].each do |path|
 
     fname = File.basename(path, '.js')
@@ -66,7 +64,7 @@ task :package => :clean do
     "-o pkg/#{LIBRARY}-all-#{version}.min.js"
   ) if js_count > 1
 
-  Dir['pkg/*.min.js'].each do |path|
+  Dir["pkg/*-#{version}.min.js"].each do |path|
 
     fname = File.basename(path)
 
@@ -76,13 +74,16 @@ task :package => :clean do
     File.open(path, 'wb') { |f| f.print(s) }
   end
 
-  footer = "\n/* compressed from commit #{sha} */\n"
-
-  Dir['pkg/*.js'].each { |path| File.open(path, 'ab') { |f| f.puts(footer) } }
-
-  sh(
-    "mkdir -p pkg/css-#{version}; cp css/* pkg/css-#{version}/"
-  ) if File.exist?('css')
+  Dir["pkg/*-#{version}.min.js"].each do |path|
+    File.open(path, 'ab') { |f|
+      f.puts("\n/* compressed from commit #{sha} */\n")
+    }
+  end
+  Dir["pkg/*-#{version}.js"].each do |path|
+    File.open(path, 'ab') { |f|
+      f.puts("\n/* from commit #{sha} */\n")
+    }
+  end
 end
 
 desc %q{
