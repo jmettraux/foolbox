@@ -33,12 +33,17 @@ var Foolbox = (function() {
 
   function isString(o) {
     return ((typeof o) === 'string'); }
-  function isElement(o) {
-    return o && isString(o.nodeName); }
   function isHash(o) {
     return o && ((typeof o) === 'object') && ( ! isElement(o)); }
   function isArray(o) {
     return o && ( ! isString(o)) && (o.length === +o.length); };
+
+  function isElement(o) {
+    return o && isString(o.nodeName); }
+  function isJquery(o) {
+    return o && isString(o.jquery); }
+  function isElementOrJquery(o) {
+    return isElement(o) || isJquery(o); }
 
   function refine(elt) {
     if (elt.jquery) return elt[0];
@@ -59,7 +64,7 @@ var Foolbox = (function() {
     var arg = arguments[0];
     offset++;
     if (arg) {
-      if (arg.jquery) container = arg[0];
+      if (isJquery(arg)) container = arg[0];
       else if (isElement(arg)) container = arg;
       else offset = 0;
     }
@@ -87,7 +92,7 @@ var Foolbox = (function() {
     // argument: attributes
 
     arg = arguments[offset];
-    if (isHash(arg)) {
+    if ( ! isJquery(arg) && isHash(arg)) {
       offset++;
       for (var k in arg) { attributes[k] = arg[k]; }
     }
@@ -100,11 +105,20 @@ var Foolbox = (function() {
       innerHTML = arg;
     }
 
+    // adding a raw element?
+
+    var e;
+
+    arg = arguments[offset];
+    if ( ! tagName && arguments.length === 2 && isElementOrJquery(arg)) {
+      offset++;
+      e = refine(arg);
+    }
+
     //
     // creation
 
-    var e = document.createElement(tagName || 'div');
-      // needed for the remaining arguments
+    e = e || document.createElement(tagName || 'div');
 
     //
     // child elements

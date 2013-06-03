@@ -201,6 +201,28 @@ test('Foolbox.c().f()', function() {
     '<div id="anchor1"></div><div id="alpha"><div id="bravo"></div></div>');
 });
 
+test('Foolbox.c().c(elt)', function() {
+  // add an already existing element
+
+  tba(
+    function() {
+      var elt = Foolbox.c('span', 'hello');
+      Foolbox.c(a, 'div#alpha').c(elt);
+    },
+    '<div id="anchor1"></div><div id="alpha"><span>hello</span></div>');
+});
+
+test('Foolbox.c().c($elt)', function() {
+  // add an already existing element
+
+  tba(
+    function() {
+      var $elt = $('<span>salve</span>');
+      Foolbox.c(a, 'div#alpha').c($elt);
+    },
+    '<div id="anchor1"></div><div id="alpha"><span>salve</span></div>');
+});
+
 //
 // t() tap
 
