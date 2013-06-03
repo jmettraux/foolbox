@@ -274,3 +274,24 @@ test('Foolbox.c().$', function() {
     'nada')
 });
 
+//
+// wrap() w()
+
+test('Foolbox.w(elt)', function() {
+
+  var elt = $('<span/>')[0];
+
+  var w = Foolbox.w(elt);
+
+  equal('function', (typeof w.s));
+});
+
+test('Foolbox.w($elt)', function() {
+
+  var $elt = $('<span/>');
+
+  var w = Foolbox.w($elt);
+
+  equal('function', (typeof w.s));
+});
+

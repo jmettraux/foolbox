@@ -327,6 +327,19 @@ var Foolbox = (function() {
   }
 
   //
+  // wrap() w()
+
+  this.wrap = function(elt) {
+
+    elt = refine(elt);
+    adorn(elt);
+
+    return elt;
+  };
+
+  this.w = this.wrap;
+
+  //
   // over.
 
   return this;
