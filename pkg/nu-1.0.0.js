@@ -37,7 +37,8 @@ var Nu = (function() {
   var self = this;
 
   function isListy(o) {
-    //return (typeof obj.length === 'number');
+    //return Array.isArray(o);
+    //return (typeof o.length === 'number');
     return (o.length === +o.length);
   };
 
@@ -101,10 +102,10 @@ var Nu = (function() {
   this.select = function(coll, func) {
     var ar = isListy(coll);
     var result = ar ? [] : {};
-    self.each(coll, function(k, v) {
-      var r = ar ? func(v, k) : func(k, v);
+    self.each(coll, function(a, b) {
+      var r = func(a, b);
       if ( ! r) return;
-      if (ar) result.push(v); else result[k] = v;
+      if (ar) result.push(a); else result[a] = b;
     });
     return result;
   };
@@ -220,4 +221,4 @@ var Nu = (function() {
 }).apply({});
 
 
-/* from commit ae8623f */
+/* from commit 3766548 */
