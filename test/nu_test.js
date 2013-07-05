@@ -158,6 +158,19 @@ test('Nu.filter(object)', function() {
   deepEqual(r, { a: 1, c: 3});
 });
 
+test('Nu.select(array)', function() {
+
+  var makeArray = function() {
+    var a = []; for (var i in arguments) { a.push(arguments[i]); };
+    return a;
+  };
+  var a = makeArray(1, 'deux', 3, 'quatre');
+
+  var r = Nu.select(a, function(e) { return ((typeof e) === 'string'); });
+
+  deepEqual(r, [ 'deux', 'quatre' ]);
+});
+
 test('Nu.max(array)', function() {
 
   var r = Nu.max([ 0, 2, 1, 3, 5, 4 ])
