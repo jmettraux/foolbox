@@ -159,12 +159,10 @@ var Foolbox = (function() {
     elt.p = returnParent;
 
     elt.table = self.table;
-    elt.tr = self.tr;
-    elt.th = self.th;
-    elt.td = self.td;
-    elt.li = self.li;
-    elt.div = self.div;
-    elt.span = self.span;
+    elt.thead = self.thead; elt.tbody = self.tbody; elt.tfoot = self.tfoot;
+    elt.tr = self.tr; elt.th = self.th; elt.td = self.td;
+    elt.ul = self.ul; elt.ol = self.ol; elt.li = self.li;
+    elt.div = self.div; elt.span = self.span;
     elt.para = self.para;
 
     // obviously, this one only works if jQuery is around
@@ -257,7 +255,7 @@ var Foolbox = (function() {
   //
   // table, tr, td, div, span
 
-  function eltFunction(eltName) {
+  function eltFunction(eltName, returnParent) {
 
     return function() {
 
@@ -266,14 +264,22 @@ var Foolbox = (function() {
       for (var k in arguments) args.push(arguments[k]);
       args.splice(1, 0, eltName);
 
-      return self.create.apply(null, args);
+      var r = self.create.apply(null, args);
+
+      return returnParent ? r.parentNode : r;
     }
   }
 
   this.table = eltFunction('table');
+  this.thead = eltFunction('thead');
+  this.tbody = eltFunction('tbody');
+  this.tfoot = eltFunction('tfoot');
   this.tr = eltFunction('tr');
-  this.td = eltFunction('td');
-  this.li = eltFunction('li');
+  this.th = eltFunction('th', true);
+  this.td = eltFunction('td', true);
+  this.ol = eltFunction('ol');
+  this.ul = eltFunction('ul');
+  this.li = eltFunction('li', true);
   this.div = eltFunction('div');
   this.span = eltFunction('span');
   this.para = eltFunction('p');

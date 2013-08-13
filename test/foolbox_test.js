@@ -316,8 +316,21 @@ test('Foolbox.w(elt).table().tr().td("hello")', function() {
 
   $(a).html('');
 
-  Foolbox.w(a).table().tr().td("hello"),
+  Foolbox.w(a).table().tr().td('hello');
 
-  equal('<table><tr><td>hello</td></tr></table>', $(a).html());
+  equal(
+    $(a).html(),
+    '<table><tr><td>hello</td></tr></table>');
+});
+
+test('Foolbox.w(elt).table().tr().td("hello").td("world")', function() {
+
+  $(a).html('');
+
+  Foolbox.w(a).table().tr().td('hello').td('world');
+
+  equal(
+    $(a).html(),
+    '<table><tr><td>hello</td><td>world</td></tr></table>');
 });
 
