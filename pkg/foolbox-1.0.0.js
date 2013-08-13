@@ -25,6 +25,7 @@
 var Foolbox = (function() {
 
   var VERSION = '1.0.0';
+  this.foolbox = VERSION;
 
   var self = this;
 
@@ -157,6 +158,13 @@ var Foolbox = (function() {
     elt.t = tap;
     elt.p = returnParent;
 
+    elt.table = self.table;
+    elt.thead = self.thead; elt.tbody = self.tbody; elt.tfoot = self.tfoot;
+    elt.tr = self.tr; elt.th = self.th; elt.td = self.td;
+    elt.ul = self.ul; elt.ol = self.ol; elt.li = self.li;
+    elt.div = self.div; elt.span = self.span;
+    elt.para = self.para;
+
     // obviously, this one only works if jQuery is around
     //
     try {
@@ -243,6 +251,38 @@ var Foolbox = (function() {
   }
 
   this.c = this.create;
+
+  //
+  // table, tr, td, div, span
+
+  function eltFunction(eltName, returnParent) {
+
+    return function() {
+
+      var args = [];
+      if ( ! this.foolbox) args.push(this);
+      for (var k in arguments) args.push(arguments[k]);
+      args.splice(1, 0, eltName);
+
+      var r = self.create.apply(null, args);
+
+      return returnParent ? r.parentNode : r;
+    }
+  }
+
+  this.table = eltFunction('table');
+  this.thead = eltFunction('thead');
+  this.tbody = eltFunction('tbody');
+  this.tfoot = eltFunction('tfoot');
+  this.tr = eltFunction('tr');
+  this.th = eltFunction('th', true);
+  this.td = eltFunction('td', true);
+  this.ol = eltFunction('ol');
+  this.ul = eltFunction('ul');
+  this.li = eltFunction('li', true);
+  this.div = eltFunction('div');
+  this.span = eltFunction('span');
+  this.para = eltFunction('p');
 
   //
   // createAsFirst() f()
@@ -347,4 +387,4 @@ var Foolbox = (function() {
 }).apply({});
 
 
-/* from commit 3766548 */
+/* from commit ea41cf8 */
