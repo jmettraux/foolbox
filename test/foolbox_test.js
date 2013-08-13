@@ -295,3 +295,29 @@ test('Foolbox.w($elt)', function() {
   equal('function', (typeof w.s));
 });
 
+//
+// div(), table(), tr(), th(), td(), span(), p()
+
+test('Foolbox.table(null, {})', function() {
+
+  t(
+    Foolbox.table(null, { style: "border: 1px" }),
+    '<table style="border: 1px"></table>');
+});
+
+test('Foolbox.w(elt).table({})', function() {
+
+  t(
+    Foolbox.w(a).table({ style: "border: 1px" }),
+    '<table style="border: 1px"></table>');
+});
+
+test('Foolbox.w(elt).table().tr().td("hello")', function() {
+
+  $(a).html('');
+
+  Foolbox.w(a).table().tr().td("hello"),
+
+  equal('<table><tr><td>hello</td></tr></table>', $(a).html());
+});
+

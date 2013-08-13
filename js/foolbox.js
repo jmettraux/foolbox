@@ -25,6 +25,7 @@
 var Foolbox = (function() {
 
   var VERSION = '1.0.0';
+  this.foolbox = VERSION;
 
   var self = this;
 
@@ -157,6 +158,15 @@ var Foolbox = (function() {
     elt.t = tap;
     elt.p = returnParent;
 
+    elt.table = self.table;
+    elt.tr = self.tr;
+    elt.th = self.th;
+    elt.td = self.td;
+    elt.li = self.li;
+    elt.div = self.div;
+    elt.span = self.span;
+    elt.para = self.para;
+
     // obviously, this one only works if jQuery is around
     //
     try {
@@ -243,6 +253,30 @@ var Foolbox = (function() {
   }
 
   this.c = this.create;
+
+  //
+  // table, tr, td, div, span
+
+  function eltFunction(eltName) {
+
+    return function() {
+
+      var args = [];
+      if ( ! this.foolbox) args.push(this);
+      for (var k in arguments) args.push(arguments[k]);
+      args.splice(1, 0, eltName);
+
+      return self.create.apply(null, args);
+    }
+  }
+
+  this.table = eltFunction('table');
+  this.tr = eltFunction('tr');
+  this.td = eltFunction('td');
+  this.li = eltFunction('li');
+  this.div = eltFunction('div');
+  this.span = eltFunction('span');
+  this.para = eltFunction('p');
 
   //
   // createAsFirst() f()
