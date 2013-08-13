@@ -334,3 +334,25 @@ test('Foolbox.w(elt).table().tr().td("hello").td("world")', function() {
     '<table><tr><td>hello</td><td>world</td></tr></table>');
 });
 
+test('Foolbox.table(elt, "#x.y")', function() {
+
+  $(a).html('');
+
+  Foolbox.table(a, '#x.y.z');
+
+  equal(
+    $(a).html(),
+    '<table id="x" class="y z"></table>');
+});
+
+test('Foolbox.w(elt).table("#x.y")', function() {
+
+  $(a).html('');
+
+  Foolbox.w(a).table('#x.y.z');
+
+  equal(
+    $(a).html(),
+    '<table id="x" class="y z"></table>');
+});
+
