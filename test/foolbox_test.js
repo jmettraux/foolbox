@@ -323,6 +323,15 @@ test('Foolbox.w(elt).table().tr().td("hello")', function() {
     '<table><tr><td>hello</td></tr></table>');
 });
 
+test('Foolbox.w(elt).table().tr().td("hello") returns the td', function() {
+
+  $(a).html('');
+
+  var x = Foolbox.w(a).table().tr().td('hello');
+
+  equal(x.tagName, 'TD');
+});
+
 test('Foolbox.w(elt).table().tr().td("hello").td("world")', function() {
 
   $(a).html('');

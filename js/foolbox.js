@@ -255,7 +255,7 @@ var Foolbox = (function() {
   //
   // table, tr, td, div, span
 
-  function eltFunction(eltName, returnParent) {
+  function eltFunction(eltName, nestable) {
 
     return function() {
 
@@ -263,10 +263,10 @@ var Foolbox = (function() {
       if ( ! this.foolbox) args.push(this);
       for (var k in arguments) args.push(arguments[k]);
       args.splice(1, 0, eltName);
-
-      var r = self.create.apply(null, args);
-
-      return returnParent ? r.parentNode : r;
+      if ( ! nestable && '' + this.tagName === eltName.toUpperCase()) {
+        args[0] = args[0].parentNode;
+      }
+      return self.create.apply(null, args);
     }
   }
 
@@ -275,14 +275,14 @@ var Foolbox = (function() {
   this.tbody = eltFunction('tbody');
   this.tfoot = eltFunction('tfoot');
   this.tr = eltFunction('tr');
-  this.th = eltFunction('th', true);
-  this.td = eltFunction('td', true);
+  this.th = eltFunction('th');
+  this.td = eltFunction('td');
   this.ol = eltFunction('ol');
   this.ul = eltFunction('ul');
-  this.li = eltFunction('li', true);
-  this.div = eltFunction('div');
-  this.span = eltFunction('span');
-  this.para = eltFunction('p');
+  this.li = eltFunction('li');
+  this.div = eltFunction('div', true);
+  this.span = eltFunction('span', true);
+  this.para = eltFunction('p', true);
 
   //
   // createAsFirst() f()
