@@ -255,31 +255,39 @@ var Foolbox = (function() {
   //
   // table, tr, td, div, span
 
-  function eltFunction(eltName, returnParent) {
+  function eltFunction(eltName, parentTags) {
 
     return function() {
 
       var args = [];
+
       if ( ! this.foolbox) args.push(this);
+
       for (var k in arguments) args.push(arguments[k]);
+
       args.splice(1, 0, eltName);
 
-      var r = self.create.apply(null, args);
+      while (
+        parentTags &&
+        parentTags.indexOf(args[0].tagName.toLowerCase()) < 0
+      ) {
+        args[0] = args[0].parentNode;
+      }
 
-      return returnParent ? r.parentNode : r;
+      return self.create.apply(null, args);
     }
   }
 
   this.table = eltFunction('table');
-  this.thead = eltFunction('thead');
-  this.tbody = eltFunction('tbody');
-  this.tfoot = eltFunction('tfoot');
-  this.tr = eltFunction('tr');
-  this.th = eltFunction('th', true);
-  this.td = eltFunction('td', true);
+  this.thead = eltFunction('thead', [ 'table' ]);
+  this.tbody = eltFunction('tbody', [ 'table' ]);
+  this.tfoot = eltFunction('tfoot', [ 'table' ]);
+  this.tr = eltFunction('tr', [ 'table', 'thead', 'tbody', 'tfoot' ]);
+  this.th = eltFunction('th', [ 'tr' ]);
+  this.td = eltFunction('td', [ 'tr' ]);
   this.ol = eltFunction('ol');
   this.ul = eltFunction('ul');
-  this.li = eltFunction('li', true);
+  this.li = eltFunction('li', [ 'ol', 'ul' ]);
   this.div = eltFunction('div');
   this.span = eltFunction('span');
   this.para = eltFunction('p');
@@ -387,4 +395,4 @@ var Foolbox = (function() {
 }).apply({});
 
 
-/* from commit d44837a */
+/* from commit 7591ced on 2013-08-24 07:03:06 +0900 */
