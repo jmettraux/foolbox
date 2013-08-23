@@ -343,6 +343,17 @@ test('Foolbox.w(elt).table().tr().td("hello").td("world")', function() {
     '<table><tr><td>hello</td><td>world</td></tr></table>');
 });
 
+test('Foolbox.w(elt).table().tr().td("0").td("1").tr().td("2").td("3")', function() {
+
+  $(a).html('');
+
+  Foolbox.w(a).table().tr().td('0').td('1').tr().td('2').td('3')
+
+  equal(
+    $(a).html(),
+    '<table><tr><td>0</td><td>1</td></tr><tr><td>2</td><td>3</td></tr></table>');
+});
+
 test('Foolbox.table(elt, "#x.y")', function() {
 
   $(a).html('');

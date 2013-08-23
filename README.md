@@ -180,6 +180,11 @@ Foolbox.w($('#that').table().tr().td('hello').td('world');
 
 Elements created or wrapped (```Foolbox.w()```) by Foolbox get the table/thead/tfoot/tbody/tr/th/td and div/span/p methods, they can be chained.
 
+This is also OK:
+```javascript
+Foolbox.w($('#that').table().tr().td('0').td('1').tr().td('2').td('3');
+```
+It creates a two rows table.
 
 ## nu
 
