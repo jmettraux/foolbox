@@ -161,9 +161,30 @@ This pseudo-property returns the jQuery wrapped elt. Won't work if jQuery isn't 
   Foolbox.c(document.body, "p#para0").$.hide();
 ```
 
+### table, tr, td and friends
+
+Want to quickly add a table?
+
+```javascript
+Foolbox.w($('#that').table().tr().td('hello').td('world');
+  //
+  // =>
+  //
+  //     <table>
+  //       <tr>
+  //         <td>hello</td>
+  //         <td>world</td>
+  //       </tr>
+  //     </table>
+```
+
+Elements created or wrapped (```Foolbox.w()```) by Foolbox get the table/thead/tfoot/tbody/tr/th/td and div/span/p methods, they can be chained.
+
+
 ## nu
 
 TODO
+
 
 ## john
 
