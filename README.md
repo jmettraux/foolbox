@@ -21,7 +21,7 @@ var r = Nu.eachWithObject({ a: 1, b: 2, c: 3 }, {}, function(k, v, h) {
   // => { a: 2, c: 6 }
 ```
 
-Third, [john](#john) is a library for parsing/emitting loose JSON/JS serializsation string.
+Third, [john](#john) is a library for parsing/emitting loose JSON/JS serialization strings.
 
 ```javascript
 // John is lazy, but not ambiguous
@@ -193,7 +193,27 @@ TODO
 
 ## john
 
-TODO John.parse(), John.p(), John.stringify(), John.s(), John.sfy()
+John has two main methods: parse and stringify, just like JSON.
+
+It tries to cut corners with strings and is forgiving with input that cuts corners.
+
+```javascript
+// John is lazy, but not ambiguous
+//
+John.stringify(
+  { a: 0, b: "trois", 'c': true, d: [ 'alpha', 'bravo', 'charly' ] }
+)
+  // => '{ a: 0, b: trois, c: true, d: [ alpha, bravo, charly ] }'
+
+// likewise
+//
+John.parse('{ a: 0, b: tres, c: true, d: [ al, bob, cat ] }')
+  // yields { a: 0, b: "tres", 'c': true, d: [ 'al', 'bob', 'cat' ] }
+```
+
+One can shorten ```John.parse(x)``` to ```John.p(x)``` while ```John.stringify(y)``` can be shortened to ```John.sfy(y)``` or ```John.s(y)```.
+
+I use John to return relaxed JSON like strings into javascript objects. I use John.stringify() when I want to present lighter JSON-like for human consumption. (I mostly use John in [ruote-fluo](https://github.com/jmettraux/ruote-fluo)).
 
 
 ## license
