@@ -152,6 +152,18 @@ var a = Foolbox.c(document.body, "p#para0").p().c("p#para1").p();
   // para0 then para1...
 ```
 
+### empty() (or e())
+
+```javascript
+Foolbox.e(element);
+
+// or
+
+var e = Foolbox.c(container, 'div#nada', 'lore ipsum');
+  // later on...
+e.empty(); // no more "lore ipsum"
+```
+
 ### $
 
 This pseudo-property returns the jQuery wrapped elt. Won't work if jQuery isn't around.
@@ -185,6 +197,10 @@ This is also OK:
 Foolbox.w($('#that').table().tr().td('0').td('1').tr().td('2').td('3');
 ```
 It creates a two rows table.
+
+### adornements
+
+TODO
 
 ## nu
 

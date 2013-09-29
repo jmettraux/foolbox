@@ -158,6 +158,8 @@ var Foolbox = (function() {
     elt.t = tap;
     elt.p = returnParent;
 
+    elt.e = empty;
+
     elt.table = self.table;
     elt.thead = self.thead; elt.tbody = self.tbody; elt.tfoot = self.tfoot;
     elt.tr = self.tr; elt.th = self.th; elt.td = self.td;
@@ -248,6 +250,13 @@ var Foolbox = (function() {
     adorn(this.parentNode);
 
     return this.parentNode;
+  }
+
+  function empty() {
+
+    while (this.firstChild) this.removeChild(this.firstChild);
+
+    return this;
   }
 
   this.c = this.create;

@@ -264,6 +264,16 @@ test('Foolbox.e()', function() {
     '<span>really nada</span>');
 });
 
+test('fbElt.e()', function() {
+
+  var span = Foolbox.c(a, 'span#zero', 'nada');
+
+  var span1 = span.e();
+
+  equal('', $(span).html());
+  equal('zero', span1.id);
+});
+
 //
 // jq()
 
@@ -375,4 +385,27 @@ test('Foolbox.w(elt).table("#x.y")', function() {
     $(a).html(),
     '<table id="x" class="y z"></table>');
 });
+
+////
+//// h() html()
+//
+//test('Foolbox.h(target)', function() {
+//
+//  t(
+//    Foolbox.f(a, 'div#bravo'),
+//    '<div id="bravo"></div>');
+//  Foolbox.c(a, 'span', 'nada');
+//
+//  t(
+//    Foolbox.e(a).c('span', 'really nada'),
+//    '<span>really nada</span>');
+//});
+//
+//test('felt.h("div.something")', function() {
+//
+//  var e = Foolbox.c(a, 'span', 'nada');
+//
+//  t(
+//    e.h("div.something"),
+//});
 

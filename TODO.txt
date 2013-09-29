@@ -1,4 +1,4 @@
 
-[ ] use a prototype
+[x] use a prototype
 [ ] document table/tr/td and co
 
