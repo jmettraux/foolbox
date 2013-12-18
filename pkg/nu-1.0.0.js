@@ -39,6 +39,9 @@ var Nu = (function() {
   function isListy(o) {
     //return Array.isArray(o);
     //return (typeof o.length === 'number');
+    if (o === null || o === undefined) {
+      throw new TypeError("cannot iterate over " + o);
+    }
     return (o.length === +o.length);
   };
 
@@ -221,4 +224,4 @@ var Nu = (function() {
 }).apply({});
 
 
-/* from commit 7591ced on 2013-08-24 07:03:06 +0900 */
+/* from commit d45f26b on 2013-12-18 14:16:57 +0900 */
