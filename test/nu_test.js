@@ -70,6 +70,18 @@ test('Nu.each(listy)', function() {
   deepEqual(a, [ 'a', 'b', 'c' ]);
 });
 
+test('Nu.each(undefined)', function() {
+
+  try {
+    Nu.each(undefined, function(v) {});
+    equal(1, 2);
+  }
+  catch(ex) {
+    console.log(ex);
+    equal(1, 1);
+  }
+});
+
 test('Nu.find(array)', function() {
 
   var r = Nu.find([ 'alpha', 'bravo', 'charly' ], function(e, i) {

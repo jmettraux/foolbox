@@ -39,6 +39,9 @@ var Nu = (function() {
   function isListy(o) {
     //return Array.isArray(o);
     //return (typeof o.length === 'number');
+    if (o === null || o === undefined) {
+      throw new TypeError("cannot iterate over " + o);
+    }
     return (o.length === +o.length);
   };
 
